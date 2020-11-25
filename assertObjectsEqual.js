@@ -1,18 +1,3 @@
-const assertEqual = function(actual, expected) {
-  let quote1 = "";
-  let quote2= "";
-  if ( isNaN(actual)){
-      quote1 = "\"";
-  } 
-  if ( isNaN(expected)){
-    quote2 = "\"";
-  } 
-  if( actual === expected) {
-    console.log(`${String.fromCodePoint(0x2705)}${String.fromCodePoint(0x2705)}${String.fromCodePoint(0x2705)}Assertion Passed: ${quote1}${actual}${quote1} === ${quote2}${expected}${quote2}`);
-  } else {
-    console.log(`${String.fromCodePoint(0x274C)}${String.fromCodePoint(0x274C)}${String.fromCodePoint(0x274C)}Assertion Failed: ${quote1}${actual}${quote1} !== ${quote2}${expected}${quote2}`)
-  }
-};
 const eqArrays = function (firstArray, secondArray){
   let index = true;
   if (firstArray.length !== secondArray.length){
@@ -51,18 +36,14 @@ const eqObjects = function(object1, object2) {
   }
   return true;
 };
-const ab = { c: 1, a: "1", b: "2" };
-const ba = { b: "2", a: "1" , c: 1};
-console.log(eqObjects(ab, ba)); // => true
+const assertObjectsEqual = function(actual, expected) {
+  const inspect = require('util').inspect; // <= add this line
+  if (eqObjects (actual, expected) === true){
+     console.log(`${String.fromCodePoint(0x2705)}${String.fromCodePoint(0x2705)}${String.fromCodePoint(0x2705)}Assertion Passed: ${inspect(actual)} === ${inspect(expected)}`);
+  } else {
+    console.log(`${String.fromCodePoint(0x274C)}${String.fromCodePoint(0x274C)}${String.fromCodePoint(0x274C)}Assertion failed: ${inspect(actual)} !== ${inspect(expected)}`);
+  }
+  // Implement me!
+};
 
-const abc = { a: "1", b: "2", c: "3" };
-console.log(eqObjects(ab, abc)); // => false
-
-
-const cd = { c: "1", d: ["2", 3] };
-const dc = { d: ["2", 3], c: "1" };
-console.log(eqObjects(cd, dc)); // => true
-
-const cd2 = { c: "1", d: ["2", 3, 4] };
-console.log(eqObjects(cd, cd2)); // => false
-
+assertObjectsEqual({ a: '1', b: 1 } ,{ b: 11, a: '1' });
